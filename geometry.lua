@@ -46,8 +46,8 @@ end
 
 function Rectangle:draw()
 	graphics.setColor(self.colour)
-	graphics.rectangle("line", self.position.x + 0.5, 
-						       self.position.y + 0.5, 
+	graphics.rectangle("fill", self.origin.x + 0.5, 
+						       self.origin.y + 0.5, 
 						       self.size.x, self.size.y)
 end
 

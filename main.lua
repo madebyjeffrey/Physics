@@ -38,23 +38,23 @@ function love.load()
   surfaceColour = { 0, 0, 255, 255 }
   
   surface = Rectangle(vector.new(200, 20), vector.new(300, 10))
+  surface.colour = {0, 0, 255, 255 }
 end
 
 function love.update(dt)
 	-- note that this function doesn't do exactly what it needs to do yet, must be worked out more
---[[
+
 	local forces = { vector.new(0, -9.81 * ball.mass) }
 	ball = ballNext(ball, forces, dt)
 	time = time + dt
 	
-	if hitTest(ball, surface) then
+--	if hitTest(ball, surface) then
 		-- reverse the last movement
-		state.ball 
-	end
+--		state.ball 
+--	end
 	
 	print(string.format("update %f", dt))
-	print(string.format("time: %f \t ball v: %f, %f", time, state.ball.velocity.x, state.ball.velocity.y))
-  --]]
+--	print(string.format("time: %f \t ball v: %f, %f", time, state.ball.velocity.x, state.ball.velocity.y))
 end
 
 function love.draw()
@@ -67,13 +67,9 @@ function love.draw()
   graphics.setColor(borderColour)
   graphics.rectangle("line", 0.5, 0.5, graphics.getWidth(), graphics.getHeight())
 
-  -- draw the ball
   ball:draw()
-  --surface:draw()
+  surface:draw()
   
-  -- draw the surface
---  love.graphics.setColor(surfaceColour)
---  love.graphics.rectangle("fill", surface.position.x, state.size.cy - surface.position.y, surface.size.cx, surface.size.cy)
 end
 
 function love.keypressed(key, unicode) 
@@ -107,7 +103,7 @@ function ballNext(ball, forces, dt)
   
   ball2 = deepcopy(ball)
   ball2.velocity = ball2.velocity + sum
-  ball2.position = ball2.position + ball2.velocity * dt
+  ball2.origin = ball2.origin + ball2.velocity * dt
   
   return ball2
 end
