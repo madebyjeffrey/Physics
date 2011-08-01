@@ -92,18 +92,28 @@ function hitTest(ball, rectangle)
 end
 
 function ballNext(ball, forces, dt)
-  -- add new velocities together
-  sum = vector.new(0, 0)
-  
-  -- ipairs returns an iterator - for indexed tables
-  -- pairs is for key-pair tables
-  for _, f in ipairs(forces) do
-  	sum = sum + (f / ball.mass) * dt
-  end
+	-- add new velocities together
+	sum = vector.new(0, 0)
+	
+	-- ipairs returns an iterator - for indexed tables
+	-- pairs is for key-pair tables
+	for _, f in ipairs(forces) do
+		sum = sum + (f / ball.mass) * dt
+	end
+	
+	local nextVelocity = ball.velocity + sum
+	local nextOrigin = ball.origin + nextVelocity * dt
+	
+	local circle = Circle(nextOrigin, ball.radius)
+	
+	if (surface:hitTest(circle)) then
+		nextVelocity = nextVelocity:permul(vector(-1, -1))
+		nextOrigin = ball.origin + nextVelocity * dt
+	end
   
   ball2 = deepcopy(ball)
-  ball2.velocity = ball2.velocity + sum
-  ball2.origin = ball2.origin + ball2.velocity * dt
+  ball2.velocity = nextVelocity
+  ball2.origin = nextOrigin
   
   return ball2
 end
