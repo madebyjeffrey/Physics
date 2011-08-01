@@ -44,17 +44,12 @@ end
 function love.update(dt)
 	-- note that this function doesn't do exactly what it needs to do yet, must be worked out more
 
-	local forces = { vector.new(0, -9.81 * ball.mass) }
+	local forces = { vector.new(0, -9.81 * ball.mass * 2) }
 	ball = ballNext(ball, forces, dt)
 	time = time + dt
 	
---	if hitTest(ball, surface) then
-		-- reverse the last movement
---		state.ball 
---	end
-	
-	print(string.format("update %f", dt))
---	print(string.format("time: %f \t ball v: %f, %f", time, state.ball.velocity.x, state.ball.velocity.y))
+--	print(string.format("update %f", dt))
+	print(string.format("time: %f \t ball p: %f %f v: %f, %f", time, ball.origin.x, ball.origin.y, ball.velocity.x, ball.velocity.y))
 end
 
 function love.draw()
@@ -107,6 +102,7 @@ function ballNext(ball, forces, dt)
 	local circle = Circle(nextOrigin, ball.radius)
 	
 	if (surface:hitTest(circle)) then
+		-- add a partial distance calculation to account for the distance from the target and the velocity, before reversal
 		nextVelocity = nextVelocity:permul(vector(-1, -1))
 		nextOrigin = ball.origin + nextVelocity * dt
 	end
