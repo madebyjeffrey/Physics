@@ -69,7 +69,7 @@ function love.draw()
 
   -- draw the ball
   ball:draw()
---  surface:draw()
+  --surface:draw()
   
   -- draw the surface
 --  love.graphics.setColor(surfaceColour)
